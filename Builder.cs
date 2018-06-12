@@ -53,7 +53,7 @@ namespace BuildConfig{
 
 			PlayerSettings.SetScriptingDefineSymbolsForGroup(buildTargetGroup,previousSymbols);
 		}
-
+		
 		private void DeleteBuildFolder(string buildFolderPath) {
 			if (System.IO.Directory.Exists (buildFolderPath)) {
 				System.IO.Directory.Delete (buildFolderPath, true);
