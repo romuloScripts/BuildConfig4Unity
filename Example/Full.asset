@@ -11,6 +11,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 707eb223e609dd1498828c80872756bb, type: 3}
   m_Name: Full
   m_EditorClassIdentifier: 
+  buildFolderPath: C:/Users/romul/OneDrive/Desktop
   buildName: TestFull
   buildTarget: 19
   developerBuild: 0
@@ -18,5 +19,4 @@ MonoBehaviour:
   setDefineSymbols: 1
   defineSymbols: FULL
   buildTargetGroup: 1
-  scenes:
-  - {fileID: 102900000, guid: 541ab431e2f6d0f4c97edce443b5c255, type: 3}
+  sceneList: {fileID: 11400000, guid: 3d0b72d7d584d224abc560f8075ab5c0, type: 2}

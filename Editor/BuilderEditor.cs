@@ -16,29 +16,17 @@ namespace BuildConfig{
 		public override void OnInspectorGUI () {
 			DrawDefaultInspector();
 			GUILayout.Space(20);
+			GUILayout.BeginHorizontal();
+			if(GUILayout.Button("Chose Build Folder")){
+				string buildFolderPath = EditorUtility.SaveFolderPanel("Select Build Folder","","");
+				foreach (var item in builders) {
+					item.buildFolderPath = buildFolderPath;
+				}
+			}
 			if(GUILayout.Button("Build")){
-				EditorApplication.delayCall += Build;
+				EditorApplication.delayCall += ()=> BuildGroup.Build(builders);
 			}
-		}
-
-		private void Build(){
-			string buildFolderPath = EditorUtility.SaveFolderPanel("Select Build Folder","","");
-			if(string.IsNullOrEmpty(buildFolderPath)) return;
-			BuildTarget previousBuildTarget = EditorUserBuildSettings.activeBuildTarget;
-			BuildTargetGroup previousBuildTargetGroup = EditorUserBuildSettings.selectedBuildTargetGroup;
-			foreach (var item in builders) {
-				item.Build(buildFolderPath);
-			}
-			OpenFolder(buildFolderPath);
-			EditorUserBuildSettings.SwitchActiveBuildTarget(previousBuildTargetGroup,previousBuildTarget);
-		}
-
-		private void OpenFolder(string buildFolderPath){
-			if(builders.Length>1){
-				EditorUtility.RevealInFinder(buildFolderPath+"/" + builders[0].buildTarget + "/");
-			}else{
-				EditorUtility.RevealInFinder(buildFolderPath+"/" + builders[0].buildTarget + "/" +builders[0].buildName+"/");
-			}
+			GUILayout.EndHorizontal();
 		}
 	}
 }

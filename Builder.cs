@@ -7,11 +7,12 @@ using UnityEditor;
 #endif
 
 namespace BuildConfig{
-	[CreateAssetMenu]
+	[CreateAssetMenu(fileName = "Builder", menuName = "BuildConfig/Builder", order = 0)]
 	public class Builder : ScriptableObject {
 
 #if UNITY_EDITOR
 		[Header("Normal Settings")]
+		public string buildFolderPath;
 		public string buildName;
 		public BuildTarget buildTarget = BuildTarget.StandaloneWindows64;
 		public bool developerBuild;
@@ -23,23 +24,16 @@ namespace BuildConfig{
 		public BuildTargetGroup buildTargetGroup = BuildTargetGroup.Standalone;
 
 		[Header("Scenes")]
-		public Object[] scenes;
+		public SceneList sceneList;
 		
-		
-		private string[] GetScenes () {
-			List<string> scenesStrings = new List<string>();
-			foreach (Object s in scenes) {
-				scenesStrings.Add(AssetDatabase.GetAssetPath(s));
-			}
-			return scenesStrings.ToArray();
-		}
 
-		public void Build(string buildFolderPath) {
+		public void Build(){
+			if(string.IsNullOrEmpty(buildFolderPath)) return;
 			string previousSymbols = PlayerSettings.GetScriptingDefineSymbolsForGroup(buildTargetGroup);
 			if(setDefineSymbols)
 				PlayerSettings. SetScriptingDefineSymbolsForGroup(buildTargetGroup,defineSymbols);
 
-			string[] scenes = GetScenes();
+			string[] scenes = sceneList?sceneList.GetScenes():SceneList.GetBuildSettingsScenes();
 			string buildNamePath;
 			if(createBuildNameFolder)
 				buildNamePath = buildFolderPath + "/" + buildTarget + "/" + buildName;
