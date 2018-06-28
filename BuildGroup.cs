@@ -28,18 +28,21 @@ namespace BuildConfig{
 			}
 			BuildTarget previousBuildTarget = EditorUserBuildSettings.activeBuildTarget;
 			BuildTargetGroup previousBuildTargetGroup = EditorUserBuildSettings.selectedBuildTargetGroup;
-			foreach (var item in builders) {
-				item.Build();
-			}
-			List<string> buildFolders = new List<string>();
-			foreach (var item in builders) {
-				if(!buildFolders.Contains(item.buildFolderPath)){
-					buildFolders.Add(item.buildFolderPath);
-					OpenFolder(item.buildFolderPath,item.buildTarget);
+			try{
+				foreach (var item in builders) {
+					item.Build();
 				}
+				List<string> buildFolders = new List<string>();
+				foreach (var item in builders) {
+					if(!buildFolders.Contains(item.buildFolderPath)){
+						buildFolders.Add(item.buildFolderPath);
+						OpenFolder(item.buildFolderPath,item.buildTarget);
+					}
+				}
+				steamSettings?.UploadToSteam();
+			}finally{
+				EditorUserBuildSettings.SwitchActiveBuildTarget(previousBuildTargetGroup,previousBuildTarget);
 			}
-			steamSettings?.UploadToSteam();
-			EditorUserBuildSettings.SwitchActiveBuildTarget(previousBuildTargetGroup,previousBuildTarget);
 		}
 
 		public static void OpenFolder(string buildFolderPath, BuildTarget target){

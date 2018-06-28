@@ -18,6 +18,9 @@ namespace BuildConfig{
 			if(GUILayout.Button("Chose Steam Upload Exe")){
 				b.steamcmdExePath = EditorUtility.OpenFilePanel("Select Steam Exe File","","");
 			}
+			if(GUILayout.Button("Chose Steam Build Script")){
+				b.steamBuildScript = EditorUtility.OpenFilePanel("Select Steam Exe File","","vdf");
+			}
 			if(GUILayout.Button("Upload")){
 				EditorApplication.delayCall += ()=> b.UploadToSteam();
 			}

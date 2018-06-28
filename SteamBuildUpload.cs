@@ -16,14 +16,17 @@ namespace BuildConfig{
 		public string username;
 		public string password;
 
-		private const string steamCmdArgFormat = "+login {0} {1} +run_app_build_http \"{2}\" +quit";
+		private const string steamCmdArgFormat = "+login {0} {1} +run_app_build \"{2}\" +quit";
 
 #if UNITY_EDITOR
 		public void UploadToSteam(){
 			if(string.IsNullOrEmpty(steamcmdExePath)){
 				steamcmdExePath = EditorUtility.OpenFilePanel("Select Steam Exe File","","");
 			}
-			if(!File.Exists(steamcmdExePath)) return;
+			if(!File.Exists(steamcmdExePath) || !File.Exists(steamBuildScript)){
+				UnityEngine.Debug.Log("Steam files no exists");
+				return;
+			}
 			ExecuteCMD();
 		}
 

@@ -31,21 +31,22 @@ namespace BuildConfig{
 			if(string.IsNullOrEmpty(buildFolderPath)) return;
 			string previousSymbols = PlayerSettings.GetScriptingDefineSymbolsForGroup(buildTargetGroup);
 			if(setDefineSymbols)
-				PlayerSettings. SetScriptingDefineSymbolsForGroup(buildTargetGroup,defineSymbols);
+				PlayerSettings.SetScriptingDefineSymbolsForGroup(buildTargetGroup,defineSymbols);
+			try{
+				string[] scenes = sceneList?sceneList.GetScenes():SceneList.GetBuildSettingsScenes();
+				string buildNamePath;
+				if(createBuildNameFolder)
+					buildNamePath = buildFolderPath + "/" + buildTarget + "/" + buildName;
+				else
+					buildNamePath = buildFolderPath + "/" + buildTarget;
+				string buildFullPath = buildNamePath + "/" + buildName+".exe";
 
-			string[] scenes = sceneList?sceneList.GetScenes():SceneList.GetBuildSettingsScenes();
-			string buildNamePath;
-			if(createBuildNameFolder)
-				buildNamePath = buildFolderPath + "/" + buildTarget + "/" + buildName;
-			else
-				buildNamePath = buildFolderPath + "/" + buildTarget;
-			string buildFullPath = buildNamePath + "/" + buildName+".exe";
-
-			DeleteBuildFolder(buildNamePath);
-			BuildOptions bo = developerBuild?BuildOptions.Development:BuildOptions.None;
-			BuildPipeline.BuildPlayer (scenes, buildFullPath, buildTarget,bo);
-
-			PlayerSettings.SetScriptingDefineSymbolsForGroup(buildTargetGroup,previousSymbols);
+				DeleteBuildFolder(buildNamePath);
+				BuildOptions bo = developerBuild?BuildOptions.Development:BuildOptions.None;
+				BuildPipeline.BuildPlayer (scenes, buildFullPath, buildTarget,bo);	
+        	}finally{
+				PlayerSettings.SetScriptingDefineSymbolsForGroup(buildTargetGroup,previousSymbols);
+    		}
 		}
 		
 		private void DeleteBuildFolder(string buildFolderPath) {
