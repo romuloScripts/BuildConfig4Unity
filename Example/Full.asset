@@ -11,7 +11,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 707eb223e609dd1498828c80872756bb, type: 3}
   m_Name: Full
   m_EditorClassIdentifier: 
-  buildFolderPath: C:/Users/romul/OneDrive/Desktop
+  buildFolderPath: 
   buildName: TestFull
   buildTarget: 19
   developerBuild: 0
