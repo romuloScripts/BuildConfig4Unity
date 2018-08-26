@@ -16,7 +16,7 @@ namespace BuildConfig{
 		public string username;
 		public string password;
 
-		private const string steamCmdArgFormat = "+login {0} {1} +run_app_build \"{2}\" +quit";
+		private const string steamCmdArgFormat = "+login {0} {1} +run_app_build \"{2}\"";
 
 #if UNITY_EDITOR
 		public void UploadToSteam(){
